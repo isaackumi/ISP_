@@ -28,6 +28,9 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.get('/',(req,res)=>{
   res.render('index',{layout:false})
 })
+app.get('/team',(req,res)=>{
+  res.render('team',{layout:false})
+})
 
 app.get('/about',(req,res)=>{
   res.render('about',{layout:false})
@@ -68,6 +71,12 @@ app.post('/comment',(req,res)=>{
 app.post('/search',(req,res)=>{
   console.log(req.body);
 })
+
+app.post('/contact',(req,res)=>{
+  console.log(req.body.email);
+})
+
+
 
 // ################ End - Form Procesing ############################
 app.listen(port, ()=>{
