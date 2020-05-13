@@ -107,10 +107,9 @@ app.post('/contact',(req,res)=>{
 
 
 // ################ End - Form Procesing ############################
-// app.listen(port, ()=>{
-//   console.log(`serving on port ${port}`);
-// });
+app.listen(port, ()=>{
+  console.log(`serving on port ${port}`);
+});
 
-app.listen(port);
 
-https.createServer(options, app).listen(port);
+// https.createServer(options, app).listen(port);
