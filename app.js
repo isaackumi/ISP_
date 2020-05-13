@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const path = require('path')
 const compression = require('compression');
 const hsts = require('hsts');
+const fs = require('fs');
 const helmet = require('helmet');
+const https = require('https');
 const expressEnforceSSL = require('express-enforces-ssl');
 
 
@@ -13,6 +15,12 @@ const port = process.env.PORT || 5000;
 
 app.use(helmet())
 
+// Instantiating HTTPS server
+var options = {
+  "key": fs.readFileSync('./https/key.pem'),
+  "cert": fs.readFileSync('./https/cert.pem')
+
+}
 
 // View engine setup
 app.engine('handlebars', exphbs());
@@ -99,6 +107,12 @@ app.post('/contact',(req,res)=>{
 
 
 // ################ End - Form Procesing ############################
-app.listen(port, ()=>{
+// app.listen(port, ()=>{
+//   console.log(`serving on port ${port}`);
+// });
+
+app.listen(port);
+
+https.createServer(options, app).listen(port,()=>{
   console.log(`serving on port ${port}`);
 });
