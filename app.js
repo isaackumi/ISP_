@@ -113,6 +113,4 @@ app.post('/contact',(req,res)=>{
 
 app.listen(port);
 
-https.createServer(options, app).listen(port,()=>{
-  console.log(`serving on port ${port}`);
-});
+https.createServer(options, app).listen(port);
