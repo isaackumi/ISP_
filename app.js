@@ -6,6 +6,7 @@ const compression = require('compression');
 const hsts = require('hsts');
 const helmet = require('helmet');
 const https = require('https');
+const fs = require('fs');
 const expressEnforceSSL = require('express-enforces-ssl');
 
 
@@ -97,9 +98,14 @@ app.post('/contact',(req,res)=>{
   console.log(req.body.email);
 })
 
+var httpsServerOptions = {
+  "key": fs.readFileSync('./https/key.pem'),
+  "cert": fs.readFileSync('./https/cert.pem')
+
+}
 
 
 // ################ End - Form Procesing ############################
-app.listen(port, ()=>{
+app.listen( port, httpsServerOptions, ()=>{
   console.log(`serving on port ${port}`);
 });
