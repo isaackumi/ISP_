@@ -2,9 +2,16 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path')
+const compression = require('compression');
+const hsts = require('hsts');
+const helmet = require('helmet');
+const expressEnforceSSL = require('express-enforces-ssl');
+
 
 const app  = express();
 const port = process.env.PORT || 5000;
+
+app.use(helmet())
 
 
 // View engine setup
@@ -14,10 +21,23 @@ app.set('view engine', 'handlebars');
 app.set('trust proxy', true);
 app.set('views', __dirname + '/views');
 
+//  ######### Middleware ############
+
+app.enable('trust proxy')
+app.use(expressEnforceSSL())
+
 app.use(bodyParser.urlencoded({
   extended: false
 }))
 app.use(bodyParser.json())
+
+app.use(hsts({
+  maxAge: 15552000  // 180 days in seconds
+}))
+
+app.use(compression())
+
+//  ######### Middleware ############
 
 // Static folder
 app.use('/public', express.static(path.join(__dirname, 'public')));
